@@ -27,10 +27,6 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        private const val TAG = "zxf"
-    }
-
     private lateinit var adapter: NoteAdapter
     private lateinit var mainViewModel: NoteViewModel
     var flag = true
