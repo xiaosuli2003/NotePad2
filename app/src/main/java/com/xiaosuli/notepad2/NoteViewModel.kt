@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
+    var flag = true
+
     private val repository = NoteRepository(application)
 
     fun insertNote(title: String, content: String): Long {

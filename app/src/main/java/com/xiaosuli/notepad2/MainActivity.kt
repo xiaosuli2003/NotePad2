@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter: NoteAdapter
     private lateinit var mainViewModel: NoteViewModel
-    var flag = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.title = ""
         // 修改状态栏字体颜色，用AndroidX官方兼容API
-        val wic = ViewCompat.getWindowInsetsController(window.decorView);
+        val wic = ViewCompat.getWindowInsetsController(window.decorView)
         // true表示Light Mode，状态栏字体呈黑色，反之呈白色
         wic?.isAppearanceLightStatusBars = application.resources.configuration.uiMode == 0x11
         addNote.setOnClickListener {
@@ -65,13 +64,13 @@ class MainActivity : AppCompatActivity() {
             clearFocus()
             refreshNote(150)
         }
-        searchEdit.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
+        searchEdit.setOnEditorActionListener { _, actionId, _ ->
             //如果actionId是搜索的id，则进行下一步的操作
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchNote(searchEdit)
             }
             true
-        })
+        }
         clear.isVisible = false
         clear.setOnClickListener {
             clearFocus()
@@ -98,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                 val notes = mainViewModel.queryNoteByKeyword(keyword)
                 runOnUiThread {
                     if (notes.isEmpty()) {
-                        Snackbar.make(view, "未查询到便签", Snackbar.LENGTH_SHORT).show()
+                        Toast.makeText(this,"未查询到便签",Toast.LENGTH_SHORT).show()
                     } else {
                         adapter.noteList = notes
                         adapter.notifyDataSetChanged()
@@ -145,15 +144,15 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.set_list_mode -> {
-                if (flag) {
+                if (mainViewModel.flag) {
                     val layoutManager = LinearLayoutManager(this)
                     recyclerView.layoutManager = layoutManager
-                    flag = false
+                    mainViewModel.flag = false
                 } else {
                     val layoutManager =
                         StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                     recyclerView.layoutManager = layoutManager
-                    flag = true
+                    mainViewModel.flag = true
                 }
             }
         }
